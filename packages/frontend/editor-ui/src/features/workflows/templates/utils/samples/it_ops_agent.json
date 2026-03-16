@@ -7,7 +7,7 @@
 	"nodes": [
 		{
 			"parameters": {
-				"content": "## IT Ops Agent\n\nAn AI-powered IT Operations agent that monitors infrastructure, diagnoses issues, executes runbooks, and manages incidents.\n\n### Setup\n1. Configure **Azure OpenAI** credentials\n2. Update HTTP Request tool URLs to point to your monitoring endpoints\n3. Configure alert webhook URL in your monitoring system\n\n### Capabilities\n- Infrastructure health monitoring\n- Incident triage and diagnosis\n- Automated runbook execution\n- Alert correlation and deduplication\n- Status reporting and escalation",
+				"content": "## IT Ops Agent\n\nAn AI-powered IT Operations agent that monitors infrastructure, diagnoses issues, executes runbooks, and manages incidents.\n\n### Setup\n1. Configure **Azure OpenAI** credentials\n2. Update HTTP Request tool URLs to point to your monitoring endpoints\n\n### Capabilities\n- Infrastructure health monitoring\n- Incident triage and diagnosis\n- Automated runbook execution\n- Status reporting and escalation",
 				"height": 360,
 				"width": 440,
 				"color": 4
@@ -20,7 +20,7 @@
 		},
 		{
 			"parameters": {
-				"content": "### 🔧 IT Operations Flow\nThe agent receives alerts or chat messages, diagnoses issues, and takes automated action.",
+				"content": "### 🔧 IT Operations Flow\nThe agent receives chat messages, diagnoses issues, and takes automated action.",
 				"height": 640,
 				"width": 1100,
 				"color": 7

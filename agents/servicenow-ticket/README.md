@@ -4,11 +4,11 @@ AI-powered ServiceNow ticket lifecycle management agent that handles end-to-end 
 
 ## Capabilities
 
-- **Create Tickets**: Log incidents, service requests, and change requests with auto-classification
-- **Query Tickets**: Search by ticket number, status, priority, or keywords
-- **Update Tickets**: Add work notes, change status, reassign, update priority
-- **Resolve & Close**: Complete ticket lifecycle with resolution details and close codes
-- **Generate Reports**: Create ticket summaries and workload reports
+- **Create Incidents**: Log incidents with auto-classification and prioritization
+- **Query Incidents**: Search by incident number, status, priority, or keywords
+- **Update Incidents**: Add work notes, change status, reassign, update priority
+- **Resolve & Close**: Complete incident lifecycle with resolution details and close codes
+- **Generate Reports**: Create incident summaries and workload reports
 
 ## Setup
 

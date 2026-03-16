@@ -45,9 +45,9 @@ export const getServicenowTicketAgentWorkflowJson = (): WorkflowDataWithTemplate
 export const SampleTemplates = {
 	RagStarterTemplate: getRagStarterWorkflowJson().meta.templateId,
 	EasyAiTemplate: getEasyAiWorkflowJson().meta.templateId,
-	LinkedinPostGenerator: getLinkedinPostGeneratorWorkflowJson().meta.templateId,
-	ItOpsAgent: getItOpsAgentWorkflowJson().meta.templateId,
-	ServicenowTicketAgent: getServicenowTicketAgentWorkflowJson().meta.templateId,
+	LinkedinPostGeneratorTemplate: getLinkedinPostGeneratorWorkflowJson().meta.templateId,
+	ItOpsAgentTemplate: getItOpsAgentWorkflowJson().meta.templateId,
+	ServicenowTicketAgentTemplate: getServicenowTicketAgentWorkflowJson().meta.templateId,
 } as const;
 
 export const TutorialTemplates = {
