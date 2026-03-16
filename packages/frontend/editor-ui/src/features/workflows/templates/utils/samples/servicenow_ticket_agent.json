@@ -189,7 +189,7 @@
 				},
 				"sendBody": true,
 				"specifyBody": "json",
-				"jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('close_body', `JSON body to resolve and close the ticket:\n{\n  \"state\": \"6\",\n  \"close_code\": \"Solved (Permanently)\",\n  \"close_notes\": \"Detailed resolution description\",\n  \"resolved_by\": \"ServiceNow Agent\",\n  \"work_notes\": \"Ticket resolved and closed by ServiceNow Ticket Agent\"\n}`, 'string') }}",
+				"jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('close_body', `JSON body to resolve and close the ticket:\n{\n  \"state\": \"6\",\n  \"close_code\": \"Solved (Permanently)\",\n  \"close_notes\": \"Detailed resolution description\",\n  \"resolved_by\": \"ServiceNow Ticket Agent\",\n  \"work_notes\": \"Ticket resolved and closed by ServiceNow Ticket Agent\"\n}`, 'string') }}",
 				"toolDescription": "Resolve and close a ServiceNow incident ticket. Sets the state to Resolved (6) with resolution details including close code, close notes, and resolution summary. Use after the issue has been confirmed as fixed."
 			},
 			"id": "c1d2e3f4-3333-4ccc-aaaa-000000000017",
