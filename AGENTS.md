@@ -272,6 +272,11 @@ in `workflowSamples.ts`.
 | LinkedIn Post Generator | `linkedin-post-generator-agent` | Azure OpenAI (0.7) | RSS feeds, Google News, HTTP |
 | IT Ops | `it-ops-agent` | Azure OpenAI (0.3) | Health checks, Metrics, Logs, Runbooks |
 | ServiceNow Ticket Agent | `servicenow-ticket-agent` | Azure OpenAI (0.2) | CRUD + Reports via Table API |
+| Teams Bot | `azure-bot-teams-webhook` | None (webhook only) | Bot Connector API reply, JWT token fetch |
+
+> **Note:** The Teams Bot template lives in `agents/teams-bot/workflow_template.json`
+> and is imported manually. It is not registered in the editor UI `workflowSamples.ts`
+> because it is a standalone webhook workflow, not an interactive sample template.
 
 ### Testing Agent Templates
 
