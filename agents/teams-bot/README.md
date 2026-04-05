@@ -93,11 +93,20 @@ Azure Portal → Create a resource → Azure Bot
 
 ### 2. Set the messaging endpoint
 
+> **Security Note:** The n8n webhook has no inbound JWT validation. Point the
+> Azure Bot Service messaging endpoint at the **companion bridge app** (which
+> validates Bot Framework JWTs) rather than directly at the n8n webhook URL.
+> Alternatively, place a reverse proxy or API gateway in front of n8n that
+> validates the inbound JWT before forwarding requests.
+
 In the Bot resource → **Configuration**:
 
 ```
-Messaging endpoint: https://your-n8n.example.com/webhook/azure-bot-activity
+Messaging endpoint: https://your-companion-bridge.example.com/api/messages
 ```
+
+The companion bridge then forwards validated activities to the n8n webhook at
+`https://your-n8n.example.com/webhook/azure-bot-activity`.
 
 ### 3. Enable the Teams channel
 
@@ -124,7 +133,7 @@ Open the **Compose Reply** node in n8n and replace the echo logic:
 
 ```javascript
 // Current: echo user's text
-const replyText = `Hello, ${activity.fromName}! You said: "${activity.text}"`;
+// const replyText = `Hello, ${activity.fromName}! You said: "${activity.text}"`;
 
 // Example: route to different responses
 let replyText;

@@ -2,7 +2,7 @@
 name: teams-bot
 description: >
   Azure Bot Service integration for Microsoft Teams via n8n webhook.
-  Receives Bot Framework activities (messages, conversationUpdates), extracts
+  Receives Bot Framework activities (messages, conversationUpdate), extracts
   key fields from the Activity schema, and sends replies back through the
   Bot Connector REST API using Bearer token auth.
   Examples:
@@ -44,6 +44,12 @@ graph TD
 | Node | Type | Purpose |
 |---|---|---|
 | Receive Bot Activity | `webhook` v2 | POST endpoint, no auth, path `azure-bot-activity` |
+
+> **Security Warning:** This webhook has no inbound authentication. Do **not**
+> expose it directly to the internet without validating Bot Framework JWTs.
+> Use the companion Teams bot app (JWT verification bridge) or an equivalent
+> auth mechanism in front of this endpoint before making it publicly reachable.
+
 | Verify Bot Identity | `if` v2 | Ensures `serviceUrl` starts with `https://` |
 | Reject Invalid Request | `respondToWebhook` v1 | Returns HTTP 400 for invalid activities |
 | Extract Activity Fields | `code` v2 | Maps Bot Framework Activity schema to flat object |

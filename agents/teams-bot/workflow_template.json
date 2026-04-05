@@ -13,7 +13,7 @@
       "typeVersion": 1,
       "position": [-480, -200],
       "parameters": {
-        "content": "## Azure Bot Service – Teams Webhook\n\n**Before activating:**\n1. Copy the **Webhook URL** from the Webhook node below.\n2. In Azure Portal → Bot Service → Configuration → Messaging endpoint, paste that URL.\n3. Set `BOT_APP_ID` and `BOT_APP_PASSWORD` in your Azure Bot registration.\n4. Set the `BOT_APP_ID` expression on the **Verify Bot Identity** node.\n5. Replace `YOUR_N8N_WEBHOOK_URL` in the Teams bot app `.env` with this URL.\n\n**Flow:**\n- Azure Bot Service → POST activity to this webhook\n- Workflow extracts `activity.type`, `activity.text`, `from.name`\n- For `message` activities, composes a reply and POSTs back to `serviceUrl`\n- Bot Connector JWT auth is handled by Azure Bot Service; this webhook receives the raw activity\n\n**Reference:** https://learn.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference#activity-object",
+        "content": "## Azure Bot Service – Teams Webhook\n\n**Before activating:**\n1. Copy the **Webhook URL** from the Webhook node below.\n2. In Azure Portal → Bot Service → Configuration → Messaging endpoint, paste that URL.\n3. Set `BOT_APP_ID` and `BOT_APP_PASSWORD` in your Azure Bot registration or hosting environment as needed for outbound Bot Connector calls.\n4. Note: the **Verify Bot Identity** node below only checks that `serviceUrl` starts with `https://`; it does **not** validate `BOT_APP_ID` or Bot Framework JWTs.\n5. Secure deployment requires validating inbound Bot Framework JWTs at this endpoint or behind a trusted fronting service / companion bridge before requests reach n8n.\n6. Replace `YOUR_N8N_WEBHOOK_URL` in the Teams bot app `.env` with this URL.\n\n**Flow:**\n- Azure Bot Service → POST activity to this webhook\n- Workflow checks that `body.serviceUrl` starts with `https://`\n- Workflow extracts `activity.type`, `activity.text`, `from.name`\n- For `message` activities, composes a reply and POSTs back to `serviceUrl`\n- Inbound Bot Connector JWT auth is **not** handled by this workflow; validate JWTs separately or use the companion bridge\n\n**Reference:** https://learn.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference#activity-object",
         "height": 340,
         "width": 460
       }
@@ -45,7 +45,7 @@
           "conditions": [
             {
               "id": "cond-service-url",
-              "leftValue": "={{ $json.body.serviceUrl }}",
+              "leftValue": "={{ $json.body.serviceUrl ?? '' }}",
               "rightValue": "https://",
               "operator": { "type": "string", "operation": "startsWith" }
             }
@@ -92,7 +92,7 @@
             { "outputKey": "conversationUpdate", "value": "conversationUpdate" }
           ]
         },
-        "fallbackOutput": "none",
+        "fallbackOutput": "extra",
         "options": {}
       }
     },
@@ -163,7 +163,7 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "=Bearer {{ $('Get Bot Framework Token').item.json.access_token }}"
+              "value": "={{ 'Bearer ' + $('Get Bot Framework Token').item.json.access_token }}"
             },
             { "name": "Content-Type", "value": "application/json" }
           ]
@@ -181,7 +181,7 @@
       "typeVersion": 2,
       "position": [880, 60],
       "parameters": {
-        "jsCode": "// conversationUpdate fires when members are added/removed.\n// Extend this node to send a welcome message on member add.\nconst activity = $input.item.json;\nconsole.log(`conversationUpdate in channel ${activity.channelId}, conversation ${activity.conversationId}`);\nreturn { json: { handled: true, type: 'conversationUpdate', conversationId: activity.conversationId } };"
+        "jsCode": "// conversationUpdate fires when members are added/removed.\n// Extend this node to send a welcome message on member add.\nconst activity = $input.item.json;\nreturn { json: { handled: true, type: 'conversationUpdate', conversationId: activity.conversationId } };"
       }
     },
     {
@@ -207,6 +207,18 @@
         "responseBody": "={ \"status\": \"ok\" }",
         "options": { "responseCode": 200 }
       }
+    },
+    {
+      "id": "node-respond-fallback-ok",
+      "name": "Acknowledge Unhandled Activity",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1100, 200],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"status\": \"ok\", \"note\": \"unhandled activity type\" }",
+        "options": { "responseCode": 200 }
+      }
     }
   ],
   "connections": {
@@ -229,7 +241,8 @@
     "Route by Activity Type": {
       "main": [
         [{ "node": "Compose Reply", "type": "main", "index": 0 }],
-        [{ "node": "Handle Member Join", "type": "main", "index": 0 }]
+        [{ "node": "Handle Member Join", "type": "main", "index": 0 }],
+        [{ "node": "Acknowledge Unhandled Activity", "type": "main", "index": 0 }]
       ]
     },
     "Compose Reply": {

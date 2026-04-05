@@ -274,6 +274,10 @@ in `workflowSamples.ts`.
 | ServiceNow Ticket Agent | `servicenow-ticket-agent` | Azure OpenAI (0.2) | CRUD + Reports via Table API |
 | Teams Bot | `azure-bot-teams-webhook` | None (webhook only) | Bot Connector API reply, JWT token fetch |
 
+> **Note:** The Teams Bot template lives in `agents/teams-bot/workflow_template.json`
+> and is imported manually. It is not registered in the editor UI `workflowSamples.ts`
+> because it is a standalone webhook workflow, not an interactive sample template.
+
 ### Testing Agent Templates
 
 - Validate JSON structure: `meta.templateId` exists and is a string
